@@ -1,0 +1,27 @@
+server:
+  port: 7000
+spring:
+  datasource:
+    name: webChat
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql:///webchat
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    filters: stat
+    initial-size: 2 #初始化连接
+    max-size: 10 #最大空闲连接数
+    min-idle: 1 #最小空闲连接数
+    max-active: 20 #最大活动连接
+    max-wait: 60000
+    # 间隔多久检测关闭连接
+    time-between-evict-runs-millis: 60000
+    # 一个连接在连接池中最小的生存空间
+    min-evictable-time-millis: 300000
+    # 验证连接与否的sql,不同数据配置不同
+    validation-query: SELECT 'x'
+    #　致命连接是否被空闲连接回收期（如果有）进行检验，如果检测失败，从池去除
+    test-while-idle: true
+    # 借出連接池不要測試，否側影響性能
+    test-on-borrow: false
+
