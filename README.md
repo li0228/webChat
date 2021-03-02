@@ -1,16 +1,16 @@
 # web聊天室开发
 
-## 1、技术栈
+## 技术栈
 
 ### 前端
 
 ### 后端
 
-springBoot
+springBoot、SpringMVC、mybatis、webSocket、Nginx、redis、elasticSearch、mySQL集群、myCat双机热备、Shiro安全框架
 
-## 2、设计思路
+## 设计思路
 
-## 3、遇到的问题
+## 遇到的问题
 
-## 4、相关的知识
+## 相关的知识
 
