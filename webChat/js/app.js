@@ -8,7 +8,7 @@ window.app = {
 	/**
 	 * 后端服务发布的url地址
 	 */
-	serverUrl: "http://101.200.79.231/im_bird_sys",
+	serverUrl: "http://192.168.1.101:7000/",
 	
 	/**
 	 * 图片服务器的url地址

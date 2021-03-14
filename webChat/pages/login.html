@@ -3,66 +3,97 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="../css/mui.css" rel="stylesheet" />
-		<style type="text/css">
-			body {
-				background-color: white;
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="../css/registLogin/util.css">
+		<link rel="stylesheet" type="text/css" href="../css/registLogin/main.css">
+
+
+
+		<style>
+			.p-t-85 {
+				padding-top: 10px;
 			}
-
-			.mui-input-row {
-				height: 60px;
-				padding: 8px 0px;
+			
+			.p-b-70 {
+				padding-bottom: 35px;
 			}
-
-			.mui-input-group label {
-				width: 22%;
+			
+			.m-t-85 {
+				margin-top: 15px;
 			}
-
-			.mui-input-row label~iput .mui-input-row label~select .mui-input-row label~textarea {
-				width: 80%;
-
+			
+			.container-login100 {
+				padding: 25px;
+			}
+			/*toast信息提示*/
+			
+			.mui-toast-container {
+				bottom: 50% !important;
+			}
+			.mui-toast-message {
+				opacity: 0.6;
+				color: #fff;
+				width: 180px;
+				padding: 70px 5px 10px 5px;
 			}
 		</style>
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">登陆/注册</h1>
-		</header>
 		<div class="mui-content">
-			<form class="mui-input-group">
-				<div class="mui-input-row">
-					<label for="username">账号</label>
-					<input type="text" id="username" name="username" class="mui-input-clear mui-input" placeholder="请输入账号"></input>
+			<div class="container-login100">
+				<div class="wrap-login100 p-t-85 p-b-20">
+					<form id="userform">
+						<span class="login100-form-title p-b-70">
+							<h5>" 恐 龙 " 聊 天</h5>
+						</span>
+						<span class="login100-form-avatar">
+							<img id="img_login_face" src="../css/registLogin/arrow.jpg" alt="gary">
+						</span>
+
+						<div class="wrap-input100 validate-input m-t-85 m-b-35">
+							<input class="input100" type="text" id="username" name="username" placeholder="用户名">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-50">
+							<input class="input100" type="password" id="password" name="password" placeholder="密码">
+							<span class="focus-input100"></span>
+						</div>
+						<div class="container-login100-form-btn">
+							<button type="button" class="login100-form-btn" style="background-color: #FF4136;">
+								登录/注册
+							</button>
+						</div>
+					</form>
+
 				</div>
-				<div class="mui-input-row">
-					<label for="password">密码</label>
-					<input type="password" id="password" name="password" class="mui-input-clear mui-input" placeholder="请输入密码"></input>
-				</div>
-				<div class="mui-content-padded">
-					<button type="button" class="mui-btn mui-btn-green mui-btn-block">登陆/注册</button>
-				</div>
-			</form>
+			</div>
 		</div>
 		<script src="../js/mui.js"></script>
 		<script src="../js/app.js"></script>
 		<script type="text/javascript">
+			var cid = null;
+
 			mui.init()
 
 			mui.plusReady(function() {
 				plus.navigator.setStatusBarBackground("#2c2c2c");
+				cid = plus.push.getClientInfo().clientid;
 			});
 
-			mui(document.body).on("tap", ".mui-btn-green", function() {
+			mui(document.body).on("tap", ".login100-form-btn", function() {
 				ajaxregOrlogin();
 			});
 
 			function ajaxregOrlogin() {
+				var userform = document.getElementById("userform");
 				var username = document.getElementById("username");
 				var password = document.getElementById("password");
+
 
 				if (!app.isNotNull(username.value)) {
 					// 获得焦点
@@ -79,16 +110,21 @@
 						return;
 					}
 				}
-				mui(".mui-btn").button("loading");
-				mui.ajax(app.serverUrl + "user/registerOrLogin", {
+				mui(".login100-form-btn").button("loading");
+				mui.ajax(app.serverUrl + "users/registerOrLogin", {
 					data: {
 						username: username.value,
-						password: password.value
+						password: password.value,
+						cid: cid
 					},
 					type: 'post',
 					timeout: 10000, // 超时时间10秒
 					success: function(data) {
-						console.log(JSON.stringify(data));
+						// console.log(JSON.stringify(data));
+						var userInfo = data.data;
+						app.setUserGlobalInfo(userInfo);
+						app.showToast("成功", "error");
+						mui.openWindow({url:'index.html',id:'index'});
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
 						mui(".mui-btn-green").button("reset");
@@ -98,10 +134,12 @@
 							mui.toast("连接出错");
 						}
 					}
-				})
+				});
+				mui(".login100-form-btn").button("reset");
 
 			};
 		</script>
+
 	</body>
 
 </html>

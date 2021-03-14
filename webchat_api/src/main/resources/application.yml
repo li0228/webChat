@@ -9,19 +9,32 @@ spring:
     username: root
     password: 123456
     filters: stat
-    initial-size: 2 #³õÊ¼»¯Á¬½Ó
-    max-size: 10 #×î´ó¿ÕÏĞÁ¬½ÓÊı
-    min-idle: 1 #×îĞ¡¿ÕÏĞÁ¬½ÓÊı
-    max-active: 20 #×î´ó»î¶¯Á¬½Ó
+    initial-size: 2 #åˆå§‹åŒ–è¿æ¥
+    max-size: 10 #æœ€å¤§ç©ºé—²è¿æ¥æ•°
+    min-idle: 1 #æœ€å°ç©ºé—²è¿æ¥æ•°
+    max-active: 20 #æœ€å¤§æ´»åŠ¨è¿æ¥
     max-wait: 60000
-    # ¼ä¸ô¶à¾Ã¼ì²â¹Ø±ÕÁ¬½Ó
+    # é—´éš”å¤šä¹…æ£€æµ‹å…³é—­è¿æ¥
     time-between-evict-runs-millis: 60000
-    # Ò»¸öÁ¬½ÓÔÚÁ¬½Ó³ØÖĞ×îĞ¡µÄÉú´æ¿Õ¼ä
+    # ä¸€ä¸ªè¿æ¥åœ¨è¿æ¥æ± ä¸­æœ€å°çš„ç”Ÿå­˜ç©ºé—´
     min-evictable-time-millis: 300000
-    # ÑéÖ¤Á¬½ÓÓë·ñµÄsql,²»Í¬Êı¾İÅäÖÃ²»Í¬
+    # éªŒè¯è¿æ¥ä¸å¦çš„sql,ä¸åŒæ•°æ®é…ç½®ä¸åŒ
     validation-query: SELECT 'x'
-    #¡¡ÖÂÃüÁ¬½ÓÊÇ·ñ±»¿ÕÏĞÁ¬½Ó»ØÊÕÆÚ£¨Èç¹ûÓĞ£©½øĞĞ¼ìÑé£¬Èç¹û¼ì²âÊ§°Ü£¬´Ó³ØÈ¥³ı
+    #ã€€è‡´å‘½è¿æ¥æ˜¯å¦è¢«ç©ºé—²è¿æ¥å›æ”¶æœŸï¼ˆå¦‚æœæœ‰ï¼‰è¿›è¡Œæ£€éªŒï¼Œå¦‚æœæ£€æµ‹å¤±è´¥ï¼Œä»æ± å»é™¤
     test-while-idle: true
-    # ½è³ößB½Ó³Ø²»ÒªœyÔ‡£¬·ñ‚ÈÓ°í‘ĞÔÄÜ
+    # å€Ÿå‡ºé€£æ¥æ± ä¸è¦æ¸¬è©¦ï¼Œå¦å´å½±éŸ¿æ€§èƒ½
     test-on-borrow: false
-
+mybatis:
+  #å¼€å¯é©¼å³°å‘½åæ³•
+  configuration:
+    map-underscore-to-case: true
+mybatis-plus:
+  # xmlåœ°å€
+  mapper-locations: classpath:mapper/*Mapper.xml
+  # å®ä½“æ‰«æï¼Œå¤šä¸ªpackageç”¨é€—å·æˆ–è€…åˆ†å·åˆ†éš”
+  type-aliases-package: com.lhh.entity   #è‡ªå·±çš„å®ä½“ç±»åœ°å€
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+    # è¿™ä¸ªé…ç½®ä¼šå°†æ‰§è¡Œçš„sqlæ‰“å°å‡ºæ¥ï¼Œåœ¨å¼€å‘æˆ–æµ‹è¯•çš„æ—¶å€™å¯ä»¥ç”¨
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
