@@ -56,25 +56,25 @@ public class UsersController {
 	@ResponseBody
 	public ResultInfo registerOrLogin(Users user){
 		QueryWrapper<Users> wrapper = new QueryWrapper<>();
-		wrapper.eq("username", "admin");
+		wrapper.eq("username", user.getUsername());
 		Users users = userService.getOne(wrapper);
 		// 登录
-		if(user != null){
+		if(users != null){
 			if(!users.getPassword().equals(MD5Utils.getPwd(user.getPassword()))){
 				return ResultInfo.errorMsg("密码不正确");
 			}
+			// 8b7262b1f33de7fbf9c92e553972ee1b
+			// e10adc3949ba59abbe56e057f20f883e
 		}else{
 			// 注册
-			user.setNickname("王文");
+			user.setUsername("王文");
+			user.setNickname("");
 			user.setQrcode("");
 			user.setPassword(MD5Utils.getPwd(user.getPassword()));
 			user.setFaceImage("");
 			user.setFaceImageBig("");
 			user.setId(sid.nextShort());
-
 			userService.save(user);
-
-
 		}
 		UserVo userVo = new UserVo();
 		// 可以进行copy
