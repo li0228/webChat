@@ -63,8 +63,6 @@ public class UsersController {
 			if(!users.getPassword().equals(MD5Utils.getPwd(user.getPassword()))){
 				return ResultInfo.errorMsg("密码不正确");
 			}
-			// 8b7262b1f33de7fbf9c92e553972ee1b
-			// e10adc3949ba59abbe56e057f20f883e
 		}else{
 			// 注册
 			user.setUsername("王文");

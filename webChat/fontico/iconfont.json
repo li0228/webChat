@@ -1,0 +1,16 @@
+{
+  "id": "2422159",
+  "name": "恐龙聊天",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11560470",
+      "name": "通信录",
+      "font_class": "tongxinlu",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    }
+  ]
+}

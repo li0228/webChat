@@ -9,9 +9,6 @@
 
 		<link rel="stylesheet" type="text/css" href="../css/registLogin/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/registLogin/main.css">
-
-
-
 		<style>
 			.p-t-85 {
 				padding-top: 10px;
@@ -81,6 +78,13 @@
 			mui.init()
 
 			mui.plusReady(function() {
+				// 判断用户是否注册登录过，如果本地内存有全局的用户对象，此时直接跳转到首页
+				var userInfo = app.getUserGlobalInfo();
+				if (userInfo != null) {
+					// 页面跳转
+					mui.openWindow("index.html", "index.html");
+				}
+
 				plus.navigator.setStatusBarBackground("#2c2c2c");
 				cid = plus.push.getClientInfo().clientid;
 			});
@@ -120,13 +124,16 @@
 					type: 'post',
 					timeout: 10000, // 超时时间10秒
 					success: function(data) {
-						if(data.status == 200){
+						if (data.status == 200) {
 							var userInfo = data.data;
 							app.setUserGlobalInfo(userInfo);
 							app.showToast("成功", "error");
-							mui.openWindow({url:'index.html',id:'index'});
+							mui.openWindow({
+								url: 'index.html',
+								id: 'index'
+							});
 						}
-						app.showToast(data.msg,"error");
+						app.showToast(data.msg, "error");
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
 						mui(".mui-btn-green").button("reset");
