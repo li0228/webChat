@@ -13,6 +13,11 @@ import lombok.experimental.Accessors;
 public class UserVo {
 
 	/**
+	 * 用户id
+	 */
+	private String id;
+
+	/**
 	 * 用户名，账号，慕信号
 	 */
 	private String username;

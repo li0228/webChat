@@ -76,8 +76,18 @@ public class UsersController {
 		}
 		UserVo userVo = new UserVo();
 		// 可以进行copy
-		BeanUtils.copyProperties(user,userVo);
+		BeanUtils.copyProperties(users,userVo);
 		return ResultInfo.ok(userVo);
+	}
+
+	@RequestMapping("/setNickname")
+	@ResponseBody
+	public ResultInfo setNickname(Users user){
+		if(userService.updateById(user)){
+			return ResultInfo.ok(userService.getById(user.getId()));
+		}else{
+			return ResultInfo.errorMsg("修改失败！");
+		}
 	}
 
 }

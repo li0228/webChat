@@ -127,13 +127,11 @@
 						if (data.status == 200) {
 							var userInfo = data.data;
 							app.setUserGlobalInfo(userInfo);
-							app.showToast("成功", "error");
 							mui.openWindow({
 								url: 'index.html',
 								id: 'index'
 							});
 						}
-						app.showToast(data.msg, "error");
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
 						mui(".mui-btn-green").button("reset");
