@@ -4,16 +4,16 @@ window.app = {
 	 * netty服务后端发布的url地址
 	 */
 	nettyServerUrl: 'ws://101.200.79.231:8888/ws',
-	
+	 
 	/**
 	 * 后端服务发布的url地址
 	 */
-	serverUrl: "http://192.168.1.102:7000/",
+	serverUrl: "http://192.168.1.104:7000/",
 	
 	/**
 	 * 图片服务器的url地址
 	 */
-	imgServerUrl: 'http://101.200.79.231:88/wdzl/',
+	imgServerUrl: 'http://192.168.213.66/',
 	
 	/**
 	 * 判断字符串是否为空

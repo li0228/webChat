@@ -1,7 +1,6 @@
 package com.lhh.vo;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**

@@ -65,7 +65,6 @@
 				$image.attr('src', app.imgServerUrl + faceImage);
 				/** ======================== 从相册选择图片 ======================== **/
 					// 从相册中选择图片
-					console.log("从相册中选择图片:");
 				    plus.gallery.pick( function(path){
 						imgURL = path;
 						$image.attr('src', path);
@@ -85,8 +84,10 @@
 						var base64Url = result.toDataURL();
 						// 上传头像
 						var user = app.getUserGlobalInfo();
+						console.log(user.id)
+						// console.log(base64Url)
 						// 与后端联调
-						mui.ajax(app.serverUrl + "/user/uploadFaceBase64",{
+						mui.ajax(app.serverUrl + "users/uploadFace",{
 							data:{
 								userId:user.id,
 								faceData:base64Url
@@ -115,6 +116,8 @@
 									mui.openWindow("../../pages/index.html", "index");
 								} else {
 									app.showToast(data.msg, "error");
+									// 页面跳转
+									mui.openWindow("../../pages/index.html", "index");
 								}
 							}
 						});

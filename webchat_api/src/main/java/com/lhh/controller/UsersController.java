@@ -1,9 +1,12 @@
 package com.lhh.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.lhh.bo.UserBO;
 import com.lhh.entity.auto.Users;
 import com.lhh.idworker.Sid;
 import com.lhh.service.IUsersService;
+import com.lhh.utils.FastDFSClient;
+import com.lhh.utils.FileUtils;
 import com.lhh.utils.ResultInfo;
 import com.lhh.utils.MD5Utils;
 import com.lhh.vo.UserVo;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,6 +35,9 @@ public class UsersController {
 	@Autowired private IUsersService userService;
 
 	@Autowired private Sid sid;
+
+	@Autowired private FastDFSClient fastDFSClient;
+
 	@PostMapping("/getUser")
 	public Users getUser() {
 		return userService.getById(1);
@@ -88,6 +95,45 @@ public class UsersController {
 		}else{
 			return ResultInfo.errorMsg("修改失败！");
 		}
+	}
+
+	/**
+	 * 图片上传
+	 *
+	 * @return
+	 */
+	@RequestMapping("/uploadFace")
+	@ResponseBody
+	public ResultInfo uploadPage(UserBO user) throws Exception {
+		if(user == null || user.getUserId() == null || user.getFaceData() == null){
+			return ResultInfo.errorMsg("上传失败");
+		}
+
+		// 获取base64字符串，转为文件对象再上传
+		String base64Data = user.getFaceData();
+		String userFacePath = "D:\\"+user.getUserId()+"userFaceBase64.png";
+
+		// 调用FIleUtils类中的base64转为文件对象
+		FileUtils.base64ToFile(userFacePath,base64Data);
+		MultipartFile multipartFile = FileUtils.fileToMultipart(userFacePath);
+
+		// 上传
+		String path = fastDFSClient.uploadBase64(multipartFile);
+
+		System.out.println(path);
+		// 缩略图后缀
+		String thump = "_150x150.";
+		String[] arr = path.split("\\.");
+		String thumpImgUrl = arr[0]+thump+arr[1];
+		//更新用户头像
+		Users users = new Users();
+		users.setId(user.getUserId());
+		users.setFaceImageBig(thumpImgUrl);
+		users.setFaceImage(path);
+
+		userService.updateById(users);
+
+		return ResultInfo.ok(users);
 	}
 
 }
