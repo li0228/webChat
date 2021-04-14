@@ -113,12 +113,14 @@
 				var span_username = document.getElementById("span_username");
 				// 动态将个人信息展示到对应的容器中
 				span_nickname.innerHTML = nickname;
-				console.log(nickname);
 				span_username.innerHTML = username;
 				// 头像
 				if(app.isNotNull(faceImage)){
 					var img_my_face = document.getElementById("img_my_face");
-					img_my_face.src = app.imgServerUrl+faceImage;
+					// img_my_face.src = app.imgServerUrl+faceImage;
+					img_my_face.src = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg2.utuku.imgcdc.com%2F650x0%2Fnews%2F20210303%2F667dad57-0595-4376-a0d7-2659550305be.jpg&refer=http%3A%2F%2Fimg2.utuku.imgcdc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1620833919&t=1a5dc06a41ec31f64d8a6cccbd4e11ce";
+					console.log(img_my_face.src)
+				
 				}
 			}
 		</script>

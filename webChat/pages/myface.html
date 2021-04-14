@@ -18,7 +18,7 @@
 		</header>
 		<!-- 主体部分 -->
 		<div class="mui-content">
-			<img id="img_myface" src=""/>
+			<img id="img_myface" src = ""/>
 		</div>
 		<div id="sheet-myface" class="mui-popover mui-popover-bottom mui-popover-action ">
 			<!-- 可选择菜单 -->
@@ -82,31 +82,31 @@
 					plus.nativeUI.showWaiting("下载中...");
 					
 					var user = app.getUserGlobalInfo();
-					var faceImage = user.faceImageBig;
-					
-					// var dtast = plus.downloader.createDownload(
-					// 	app.imgServerUrl + faceImage,
-					// 	{},
-					// 	function(downloadFile, status) {
+					var faceImage = user.faceImageBig;	
+					console.log(app.imgServerUrl + faceImage)
+					var dtast = plus.downloader.createDownload(
+						app.imgServerUrl + faceImage,
+						{},
+						function(downloadFile, status) {
 							
-					// 		plus.nativeUI.closeWaiting();
+							plus.nativeUI.closeWaiting();
 							
-					// 		if (status == 200) {
-					// 			var tempFile = downloadFile.filename;
+							if (status == 200) {
+								var tempFile = downloadFile.filename;
 								
-					// 			// 通过相册api保存照片到本地相册
-					// 			plus.gallery.save(tempFile, function() {
-					// 				app.showToast("保存照片成功！", "success");
-					// 			})
+								// 通过相册api保存照片到本地相册
+								plus.gallery.save(tempFile, function() {
+									app.showToast("保存照片成功！", "success");
+								})
 								
-					// 		} else {
-					// 			app.showToast("下载错误...", "error");
-					// 			console.log("下载错误...");
-					// 		}
+							} else {
+								app.showToast("下载错误...", "error");
+								console.log("下载错误...");
+							}
 							
-					// 	}
-					// );
-					// dtast.start();	// 启动下载任务
+						}
+					);
+					dtast.start();	// 启动下载任务
 					
 				});
 			});
@@ -117,8 +117,11 @@
 
 				if(user != null) {
 					var faceImage = user.faceImageBig;
+			
 					if(app.isNotNull(faceImage)) {
-						img_my_face.src = app.imgServerUrl + faceImage;
+						// img_my_face.src = app.imgServerUrl + faceImage;
+						img_my_face.src = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg2.utuku.imgcdc.com%2F650x0%2Fnews%2F20210303%2F667dad57-0595-4376-a0d7-2659550305be.jpg&refer=http%3A%2F%2Fimg2.utuku.imgcdc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1620833919&t=1a5dc06a41ec31f64d8a6cccbd4e11ce";
+			
 					}
 				}
 			}

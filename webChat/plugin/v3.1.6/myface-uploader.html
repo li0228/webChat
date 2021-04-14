@@ -84,8 +84,7 @@
 						var base64Url = result.toDataURL();
 						// 上传头像
 						var user = app.getUserGlobalInfo();
-						console.log(user.id)
-						// console.log(base64Url)
+			
 						// 与后端联调
 						mui.ajax(app.serverUrl + "users/uploadFace",{
 							data:{
@@ -94,7 +93,7 @@
 							},
 							type:'post',//HTTP请求类型
 							timeout:10000,//超时时间设置为10秒；
-							headers:{'Content-Type':'application/json'},	              
+	        
 							success:function(data){
 								
 								// 关闭等待框

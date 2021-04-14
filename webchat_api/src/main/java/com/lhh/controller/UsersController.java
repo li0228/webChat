@@ -5,11 +5,10 @@ import com.lhh.bo.UserBO;
 import com.lhh.entity.auto.Users;
 import com.lhh.idworker.Sid;
 import com.lhh.service.IUsersService;
-import com.lhh.utils.FastDFSClient;
-import com.lhh.utils.FileUtils;
-import com.lhh.utils.ResultInfo;
-import com.lhh.utils.MD5Utils;
+import com.lhh.utils.*;
 import com.lhh.vo.UserVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+
 
 /**
  * <p>
@@ -32,11 +33,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UsersController {
+	private final Logger logger = LoggerFactory.getLogger(UsersController.class);
 	@Autowired private IUsersService userService;
 
 	@Autowired private Sid sid;
 
 	@Autowired private FastDFSClient fastDFSClient;
+
+	@Autowired
+	private QRCodeUtils qrCodeUtils;
 
 	@PostMapping("/getUser")
 	public Users getUser() {
@@ -72,19 +77,44 @@ public class UsersController {
 			}
 		}else{
 			// 注册
-			user.setUsername("王文");
-			user.setNickname("");
-			user.setQrcode("");
-			user.setPassword(MD5Utils.getPwd(user.getPassword()));
-			user.setFaceImage("");
-			user.setFaceImageBig("");
-			user.setId(sid.nextShort());
-			userService.save(user);
+			Users u = new Users();
+			u.setUsername(user.getUsername());
+			u.setNickname("");
+			u.setQrcode("");
+			u.setPassword(MD5Utils.getPwd(user.getPassword()));
+			u.setFaceImage("");
+			u.setFaceImageBig("");
+			u.setId(sid.nextShort());
+
+			// 生成二维码
+			try {
+				GenerateQrCode(u);
+			} catch (IOException e) {
+				logger.error("生成二维码报错！",e);
+			}
+			userService.save(u);
+			return ResultInfo.ok(u);
 		}
 		UserVo userVo = new UserVo();
 		// 可以进行copy
 		BeanUtils.copyProperties(users,userVo);
 		return ResultInfo.ok(userVo);
+	}
+
+	/**
+	 * 生成二维码
+	 *
+	 * @param user 用户
+	 * @throws IOException
+	 */
+	private void GenerateQrCode(Users user) throws IOException {
+		String qrCodePath = "D://user"+user.getId()+"qrcode.png";
+		qrCodeUtils.createQRCode(qrCodePath,"qrcode"+user.getUsername());
+
+		MultipartFile qrcodeFile = FileUtils.fileToMultipart(qrCodePath);
+		String s = fastDFSClient.uploadBase64(qrcodeFile);
+
+		user.setQrcode(s);
 	}
 
 	@RequestMapping("/setNickname")
@@ -130,7 +160,6 @@ public class UsersController {
 		users.setId(user.getUserId());
 		users.setFaceImageBig(thumpImgUrl);
 		users.setFaceImage(path);
-
 		userService.updateById(users);
 
 		return ResultInfo.ok(users);

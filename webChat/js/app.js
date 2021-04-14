@@ -8,12 +8,12 @@ window.app = {
 	/**
 	 * 后端服务发布的url地址
 	 */
-	serverUrl: "http://192.168.1.104:7000/",
+	serverUrl: "http://192.168.1.102:7000/",
 	
 	/**
 	 * 图片服务器的url地址
 	 */
-	imgServerUrl: 'http://192.168.213.66/',
+	imgServerUrl: 'http://192.168.213.66/group1/',
 	
 	/**
 	 * 判断字符串是否为空
